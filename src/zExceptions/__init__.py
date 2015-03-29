@@ -17,6 +17,7 @@ application-specific packages.
 """
 
 from types import ClassType
+import __builtin__
 import warnings
 
 from zope.interface import implements
@@ -53,8 +54,8 @@ class Redirect(Exception):
 def convertExceptionType(name):
     import zExceptions
     etype = None
-    if name in __builtins__:
-        etype = __builtins__[name]
+    if name in __builtin__.__dict__:
+        etype = getattr(__builtin__, name)
     elif hasattr(zExceptions, name):
         etype = getattr(zExceptions, name)
     if (etype is not None and
