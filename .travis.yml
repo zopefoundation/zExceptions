@@ -9,9 +9,8 @@ python:
     - pypy
     - pypy3
 install:
-    - python bootstrap.py
-    - bin/buildout
+    - pip install nose
 script:
-    - bin/test -v1
+    - nosetests
 notifications:
     email: false
