@@ -16,8 +16,6 @@ These exceptions are so general purpose that they don't belong in Zope
 application-specific packages.
 """
 
-from types import ClassType
-import __builtin__
 import warnings
 
 from zope.interface import implements
@@ -25,6 +23,24 @@ from zope.interface.common.interfaces import IException
 from zope.publisher.interfaces import INotFound
 from zope.security.interfaces import IForbidden
 from zExceptions.unauthorized import Unauthorized
+
+
+# __builtins__ was renamed to builtins in Python 3
+try:
+    import __builtin__ as builtins
+except ImportError:
+    import builtins
+
+
+# Python 3 no longer has old-style classes
+CLASS_TYPES = [type]
+try:
+    from types import ClassType
+except ImportError:
+    pass
+else:
+    CLASS_TYPES.append(ClassType)
+CLASS_TYPES = tuple(CLASS_TYPES)
 
 
 class BadRequest(Exception):
@@ -54,12 +70,12 @@ class Redirect(Exception):
 def convertExceptionType(name):
     import zExceptions
     etype = None
-    if name in __builtin__.__dict__:
-        etype = getattr(__builtin__, name)
+    if name in builtins.__dict__:
+        etype = getattr(builtins, name)
     elif hasattr(zExceptions, name):
         etype = getattr(zExceptions, name)
     if (etype is not None and
-        isinstance(etype, (type, ClassType)) and
+        isinstance(etype, CLASS_TYPES) and
         issubclass(etype, Exception)):
         return etype
 
@@ -67,7 +83,7 @@ def convertExceptionType(name):
 def upgradeException(t, v):
     # If a string exception is found, convert it to an equivalent
     # exception defined either in builtins or zExceptions. If none of
-    # that works, tehn convert it to an InternalError and keep the
+    # that works, then convert it to an InternalError and keep the
     # original exception name as part of the exception value.
     if isinstance(t, basestring):
         warnings.warn('String exceptions are deprecated starting '
