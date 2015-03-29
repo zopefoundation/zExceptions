@@ -124,7 +124,7 @@ class Test(TestCase):
         class C:
             pass
         try:
-            raise TypeError, C()
+            raise TypeError(C())
         except:
             s = tb(1)
         else:

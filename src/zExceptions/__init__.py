@@ -24,23 +24,9 @@ from zope.publisher.interfaces import INotFound
 from zope.security.interfaces import IForbidden
 from zExceptions.unauthorized import Unauthorized
 
-
-# __builtins__ was renamed to builtins in Python 3
-try:
-    import __builtin__ as builtins
-except ImportError:
-    import builtins
-
-
-# Python 3 no longer has old-style classes
-CLASS_TYPES = [type]
-try:
-    from types import ClassType
-except ImportError:
-    pass
-else:
-    CLASS_TYPES.append(ClassType)
-CLASS_TYPES = tuple(CLASS_TYPES)
+from ._compat import builtins
+from ._compat import class_types
+from ._compat import string_types
 
 
 @implementer(IException)
@@ -53,12 +39,12 @@ class InternalError(Exception):
     pass
 
 
-@implementer(IException)
+@implementer(INotFound)
 class NotFound(Exception):
     pass
 
 
-@implementer(IException)
+@implementer(IForbidden)
 class Forbidden(Exception):
     pass
 
@@ -79,7 +65,7 @@ def convertExceptionType(name):
     elif hasattr(zExceptions, name):
         etype = getattr(zExceptions, name)
     if (etype is not None and
-        isinstance(etype, CLASS_TYPES) and
+        isinstance(etype, class_types) and
         issubclass(etype, Exception)):
         return etype
 
@@ -89,7 +75,7 @@ def upgradeException(t, v):
     # exception defined either in builtins or zExceptions. If none of
     # that works, then convert it to an InternalError and keep the
     # original exception name as part of the exception value.
-    if isinstance(t, basestring):
+    if isinstance(t, string_types):
         warnings.warn('String exceptions are deprecated starting '
                     'with Python 2.5 and will be removed in a '
                     'future release', DeprecationWarning, stacklevel=2)
