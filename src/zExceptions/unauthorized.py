@@ -11,14 +11,14 @@
 #
 ##############################################################################
 
-from zope.interface import implements
+from zope.interface import implementer
 from zope.security.interfaces import IUnauthorized
 
 
+@implementer(IUnauthorized)
 class Unauthorized(Exception):
     """Some user wasn't allowed to access a resource
     """
-    implements(IUnauthorized)
 
     def _get_message(self):
         return self._message

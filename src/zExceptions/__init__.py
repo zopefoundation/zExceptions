@@ -18,7 +18,7 @@ application-specific packages.
 
 import warnings
 
-from zope.interface import implements
+from zope.interface import implementer
 from zope.interface.common.interfaces import IException
 from zope.publisher.interfaces import INotFound
 from zope.security.interfaces import IForbidden
@@ -43,20 +43,24 @@ else:
 CLASS_TYPES = tuple(CLASS_TYPES)
 
 
+@implementer(IException)
 class BadRequest(Exception):
-    implements(IException)
+    pass
 
 
+@implementer(IException)
 class InternalError(Exception):
-    implements(IException)
+    pass
 
 
+@implementer(IException)
 class NotFound(Exception):
-    implements(INotFound)
+    pass
 
 
+@implementer(IException)
 class Forbidden(Exception):
-    implements(IForbidden)
+    pass
 
 
 class MethodNotAllowed(Exception):
