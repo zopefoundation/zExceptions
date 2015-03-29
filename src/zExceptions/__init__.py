@@ -22,7 +22,7 @@ from zope.interface import implementer
 from zope.interface.common.interfaces import IException
 from zope.publisher.interfaces import INotFound
 from zope.security.interfaces import IForbidden
-from zExceptions.unauthorized import Unauthorized
+from zExceptions.unauthorized import Unauthorized  # noqa
 
 from ._compat import builtins
 from ._compat import class_types
@@ -65,8 +65,8 @@ def convertExceptionType(name):
     elif hasattr(zExceptions, name):
         etype = getattr(zExceptions, name)
     if (etype is not None and
-        isinstance(etype, class_types) and
-        issubclass(etype, Exception)):
+            isinstance(etype, class_types) and
+            issubclass(etype, Exception)):
         return etype
 
 
@@ -76,9 +76,10 @@ def upgradeException(t, v):
     # that works, then convert it to an InternalError and keep the
     # original exception name as part of the exception value.
     if isinstance(t, string_types):
-        warnings.warn('String exceptions are deprecated starting '
-                    'with Python 2.5 and will be removed in a '
-                    'future release', DeprecationWarning, stacklevel=2)
+        warnings.warn(
+            'String exceptions are deprecated starting '
+            'with Python 2.5 and will be removed in a '
+            'future release', DeprecationWarning, stacklevel=2)
 
         etype = convertExceptionType(t)
         if etype is not None:
