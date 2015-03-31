@@ -177,7 +177,7 @@ class TextExceptionFormatter:
 
     def formatException(self, etype, value, tb, limit=None):
         # The next line provides a way to detect recursion.
-        __exception_formatter__ = 1
+        __exception_formatter__ = 1  # noqa
         result = [self.getPrefix() + '\n']
         if limit is None:
             limit = self.getLimit()

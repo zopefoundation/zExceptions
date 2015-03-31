@@ -1,8 +1,8 @@
 # Stock __traceback_supplement__ implementations
-
 class PathTracebackSupplement:
     """Implementation of ITracebackSupplement"""
     pp = None
+
     def __init__(self, object):
         self.object = object
         if hasattr(object, 'getPhysicalPath'):

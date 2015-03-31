@@ -1,9 +1,13 @@
 Changelog
 =========
 
-2.13.1 (unreleased)
--------------------
+3.0 (unreleased)
+----------------
 
+- Add compatibility with Pypy and Python 3.
+
+- Arguments to the Unauthorized exception are assumed to be utf8-encoded
+  if they are bytes.
 
 2.13.0 (2010-06-05)
 -------------------

@@ -16,30 +16,37 @@ These exceptions are so general purpose that they don't belong in Zope
 application-specific packages.
 """
 
-from types import ClassType
 import warnings
 
-from zope.interface import implements
+from zope.interface import implementer
 from zope.interface.common.interfaces import IException
 from zope.publisher.interfaces import INotFound
 from zope.security.interfaces import IForbidden
-from zExceptions.unauthorized import Unauthorized
+from zExceptions.unauthorized import Unauthorized  # noqa
+
+from ._compat import builtins
+from ._compat import class_types
+from ._compat import string_types
 
 
+@implementer(IException)
 class BadRequest(Exception):
-    implements(IException)
+    pass
 
 
+@implementer(IException)
 class InternalError(Exception):
-    implements(IException)
+    pass
 
 
+@implementer(INotFound)
 class NotFound(Exception):
-    implements(INotFound)
+    pass
 
 
+@implementer(IForbidden)
 class Forbidden(Exception):
-    implements(IForbidden)
+    pass
 
 
 class MethodNotAllowed(Exception):
@@ -53,25 +60,26 @@ class Redirect(Exception):
 def convertExceptionType(name):
     import zExceptions
     etype = None
-    if name in __builtins__:
-        etype = __builtins__[name]
+    if name in builtins.__dict__:
+        etype = getattr(builtins, name)
     elif hasattr(zExceptions, name):
         etype = getattr(zExceptions, name)
     if (etype is not None and
-        isinstance(etype, (type, ClassType)) and
-        issubclass(etype, Exception)):
+            isinstance(etype, class_types) and
+            issubclass(etype, Exception)):
         return etype
 
 
 def upgradeException(t, v):
     # If a string exception is found, convert it to an equivalent
     # exception defined either in builtins or zExceptions. If none of
-    # that works, tehn convert it to an InternalError and keep the
+    # that works, then convert it to an InternalError and keep the
     # original exception name as part of the exception value.
-    if isinstance(t, basestring):
-        warnings.warn('String exceptions are deprecated starting '
-                    'with Python 2.5 and will be removed in a '
-                    'future release', DeprecationWarning, stacklevel=2)
+    if isinstance(t, string_types):
+        warnings.warn(
+            'String exceptions are deprecated starting '
+            'with Python 2.5 and will be removed in a '
+            'future release', DeprecationWarning, stacklevel=2)
 
         etype = convertExceptionType(t)
         if etype is not None:

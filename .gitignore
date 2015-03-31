@@ -12,3 +12,7 @@ parts
 develop-eggs/
 eggs/
 *.egg-info/
+.coverage
+coverage.xml
+.tox
+nosetests.xml

@@ -11,14 +11,17 @@
 #
 ##############################################################################
 
-from zope.interface import implements
+from zope.interface import implementer
 from zope.security.interfaces import IUnauthorized
+from ._compat import PY3
+from ._compat import string_types
+from ._compat import unicode
 
 
+@implementer(IUnauthorized)
 class Unauthorized(Exception):
     """Some user wasn't allowed to access a resource
     """
-    implements(IUnauthorized)
 
     def _get_message(self):
         return self._message
@@ -40,42 +43,50 @@ class Unauthorized(Exception):
         provides are added to needed.
         """
         if name is None and (
-            not isinstance(message, basestring) or len(message.split()) <= 1):
+                not isinstance(message, string_types) or len(message.split()) <= 1):
             # First arg is a name, not a message
-            name=message
-            message=None
+            name = message
+            message = None
 
-        self.name=name
-        self._message=message
-        self.value=value
+        self.name = name
+        self._message = message
+        self.value = value
 
         if kw:
-            if needed: needed.update(kw)
-            else: needed=kw
+            if needed:
+                needed.update(kw)
+            else:
+                needed = kw
 
-        self.needed=needed
+        self.needed = needed
 
-    def __str__(self):
+    def __unicode__(self):
         if self.message is not None:
-            return self.message
+            message = self.message if isinstance(self.message, unicode) else self.message.decode(
+                'utf-8')
+            return message
         if self.name is not None:
-            return ("You are not allowed to access '%s' in this context"
-                    % self.name)
+            name = self.name if isinstance(self.name, unicode) else self.name.decode('utf-8')
+            return ("You are not allowed to access '%s' in this context" % name)
         elif self.value is not None:
             return ("You are not allowed to access '%s' in this context"
                     % self.getValueName())
         return repr(self)
 
-    def __unicode__(self):
-        result = self.__str__()
-        if isinstance(result, unicode):
-            return result
-        return unicode(result, 'ascii') # override sys.getdefaultencoding()
+    if PY3:
+        __str__ = __unicode__
+
+        def __bytes__(self):
+            return self.__unicode__().encode('utf-8')
+    else:
+        def __str__(self):
+            return self.__unicode__().encode('utf-8')
 
     def getValueName(self):
-        v=self.value
-        vname=getattr(v, '__name__', None)
-        if vname: return vname
+        v = self.value
+        vname = getattr(v, '__name__', None)
+        if vname:
+            return vname
         c = getattr(v, '__class__', type(v))
         c = getattr(c, '__name__', 'object')
         return "a particular %s" % c
