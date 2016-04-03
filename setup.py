@@ -14,15 +14,18 @@
 
 from setuptools import setup, find_packages
 
+__version__ = '3.0.dev0'
+
 setup(
     name='zExceptions',
-    version='3.0.dev0',
+    version=__version__,
     url='http://pypi.python.org/pypi/zExceptions',
     license='ZPL 2.1',
     description="zExceptions contains common exceptions used in Zope2.",
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.org',
-    long_description=open('README.txt').read() + '\n' + open('CHANGES.txt').read(),
+    long_description=(open('README.rst').read() + '\n' +
+                      open('CHANGES.txt').read()),
     packages=find_packages('src'),
     package_dir={'': 'src'},
     install_requires=[
@@ -39,12 +42,11 @@ setup(
         "Operating System :: OS Independent",
         "Programming Language :: Python",
         "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.2",
         "Programming Language :: Python :: 3.3",
         "Programming Language :: Python :: 3.4",
+        "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
     ],
