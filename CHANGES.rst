@@ -4,6 +4,9 @@ Changelog
 3.1 (unreleased)
 ----------------
 
+- Mark exceptions with appropriate zope.publisher interfaces.
+
+- Add a new common base class `zExceptions.HTTPException` to all exceptions.
 
 3.0 (2016-04-03)
 ----------------

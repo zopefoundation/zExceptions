@@ -20,40 +20,54 @@ import warnings
 
 from zope.interface import implementer
 from zope.interface.common.interfaces import IException
-from zope.publisher.interfaces import INotFound
+from zope.publisher.interfaces.http import (
+    IHTTPException,
+    IMethodNotAllowed,
+)
+from zope.publisher.interfaces import (
+    IBadRequest,
+    INotFound,
+    IRedirect,
+)
 from zope.security.interfaces import IForbidden
-from zExceptions.unauthorized import Unauthorized  # noqa
 
 from ._compat import builtins
 from ._compat import class_types
 from ._compat import string_types
 
 
-@implementer(IException)
-class BadRequest(Exception):
+@implementer(IHTTPException)
+class HTTPException(Exception):
+    pass
+
+
+@implementer(IBadRequest)
+class BadRequest(HTTPException):
     pass
 
 
 @implementer(IException)
-class InternalError(Exception):
+class InternalError(HTTPException):
     pass
 
 
 @implementer(INotFound)
-class NotFound(Exception):
+class NotFound(HTTPException):
     pass
 
 
 @implementer(IForbidden)
-class Forbidden(Exception):
+class Forbidden(HTTPException):
     pass
 
 
-class MethodNotAllowed(Exception):
+@implementer(IMethodNotAllowed)
+class MethodNotAllowed(HTTPException):
     pass
 
 
-class Redirect(Exception):
+@implementer(IRedirect)
+class Redirect(HTTPException):
     pass
 
 
@@ -88,3 +102,5 @@ def upgradeException(t, v):
             v = t, v
             t = InternalError
     return t, v
+
+from zExceptions.unauthorized import Unauthorized  # noqa

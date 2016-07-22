@@ -18,6 +18,7 @@ ExceptionFormatter tests.
 import sys
 from unittest import TestCase
 
+from zExceptions import HTTPException
 from zExceptions.ExceptionFormatter import format_exception
 
 
@@ -29,7 +30,7 @@ def tb(as_html=0):
         del b
 
 
-class ExceptionForTesting(Exception):
+class ExceptionForTesting(HTTPException):
     pass
 
 

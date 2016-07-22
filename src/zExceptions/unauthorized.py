@@ -13,13 +13,15 @@
 
 from zope.interface import implementer
 from zope.security.interfaces import IUnauthorized
+
+from zExceptions import HTTPException
 from ._compat import PY3
 from ._compat import string_types
 from ._compat import unicode
 
 
 @implementer(IUnauthorized)
-class Unauthorized(Exception):
+class Unauthorized(HTTPException):
     """Some user wasn't allowed to access a resource
     """
 
