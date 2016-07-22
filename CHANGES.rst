@@ -4,6 +4,7 @@ Changelog
 3.2 (unreleased)
 ----------------
 
+- Implement basic subset of Response features in HTTPException class.
 
 3.1 (2016-07-22)
 ----------------

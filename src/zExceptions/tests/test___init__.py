@@ -1,6 +1,61 @@
 import unittest
 
 
+class TestHTTPException(unittest.TestCase):
+
+    def _getTargetClass(self):
+        from zExceptions import HTTPException
+        return HTTPException
+
+    def _makeOne(self, *args, **kw):
+        return self._getTargetClass()(*args, **kw)
+
+    def test_body(self):
+        exc = self._makeOne()
+        self.assertEqual(exc.body, None)
+        exc.setBody('Foo')
+        self.assertEqual(exc.body, 'Foo')
+
+    def test_status(self):
+        exc = self._makeOne()
+        self.assertEqual(exc.getStatus(), 500)
+        self.assertEqual(exc.errmsg, 'Internal Server Error')
+        exc.setStatus(503)
+        self.assertEqual(exc.getStatus(), 503)
+        self.assertEqual(exc.errmsg, 'Service Unavailable')
+
+    def test_call(self):
+        exc = self._makeOne('Foo Error')
+        called = []
+
+        def start_response(status, headers):
+            called.append((status, headers))
+
+        response = exc({'Foo': 1}, start_response)
+        self.assertEqual(called, [(
+            '500 Internal Server Error',
+            [('content-type', 'text/html;charset=utf-8')]
+        )])
+        self.assertEqual(response, ['Foo Error'])
+
+    def test_call_custom(self):
+        exc = self._makeOne('Foo Error')
+        exc.setBody('<html>Foo</html>')
+        exc.setStatus(503)
+
+        called = []
+
+        def start_response(status, headers):
+            called.append((status, headers))
+
+        response = exc({'Foo': 1}, start_response)
+        self.assertEqual(called, [(
+            '503 Service Unavailable',
+            [('content-type', 'text/html;charset=utf-8')]
+        )])
+        self.assertEqual(response, ['<html>Foo</html>'])
+
+
 class TestConvertExceptionType(unittest.TestCase):
 
     def _callFUT(self, name):
