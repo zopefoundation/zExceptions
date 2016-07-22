@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.1 (unreleased)
+3.1 (2016-07-22)
 ----------------
 
 - Mark exceptions with appropriate zope.publisher interfaces.
