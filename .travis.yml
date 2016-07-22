@@ -8,10 +8,10 @@ python:
     - pypy
     - pypy3
 install:
-    - pip install -e .
-    - pip install nose
+    - python bootstrap.py
+    - bin/buildout
 script:
-    - nosetests
+    - bin/test -v1
 notifications:
     email: false
 cache:
