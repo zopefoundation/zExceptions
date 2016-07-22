@@ -21,7 +21,7 @@ import cgi
 DEBUG_EXCEPTION_FORMATTER = 1
 
 
-class TextExceptionFormatter:
+class TextExceptionFormatter(object):
 
     line_sep = '\n'
     show_revisions = 0
@@ -196,7 +196,7 @@ class TextExceptionFormatter:
         return result
 
 
-class HTMLExceptionFormatter (TextExceptionFormatter):
+class HTMLExceptionFormatter(TextExceptionFormatter):
 
     line_sep = '<br />\r\n'
 

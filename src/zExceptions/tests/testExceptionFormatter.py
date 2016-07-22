@@ -16,7 +16,7 @@ ExceptionFormatter tests.
 """
 
 import sys
-from unittest import TestCase, TestSuite, makeSuite
+from unittest import TestCase
 
 from zExceptions.ExceptionFormatter import format_exception
 
@@ -33,7 +33,7 @@ class ExceptionForTesting(Exception):
     pass
 
 
-class TestingTracebackSupplement:
+class TestingTracebackSupplement(object):
 
     source_url = '/somepath'
     line = 634
@@ -48,7 +48,7 @@ class Test(TestCase):
 
     def testBasicNamesText(self, as_html=0):
         try:
-            raise ExceptionForTesting
+            raise ExceptionForTesting()
         except ExceptionForTesting:
             s = tb(as_html)
             # The traceback should include the name of this function.
@@ -131,9 +131,3 @@ class Test(TestCase):
             self.fail('no exception occurred')
         self.assert_(s.find('&lt;') >= 0, s)
         self.assert_(s.find('&gt;') >= 0, s)
-
-
-def test_suite():
-    return TestSuite((
-        makeSuite(Test),
-        ))

@@ -24,7 +24,6 @@ class UnauthorizedTests(unittest.TestCase):
 
     def _getTargetClass(self):
         from zExceptions.unauthorized import Unauthorized
-
         return Unauthorized
 
     def _makeOne(self, *args, **kw):
@@ -92,9 +91,11 @@ class UnauthorizedTests(unittest.TestCase):
         self.assertEqual(exc.needed, None)
 
         self.assertEqual(
-            bytes(exc), b"You are not allowed to access 'ERROR_NAME' in this context")
+            bytes(exc),
+            b"You are not allowed to access 'ERROR_NAME' in this context")
         self.assertEqual(
-            unicode(exc), u("You are not allowed to access 'ERROR_NAME' in this context"))
+            unicode(exc),
+            u("You are not allowed to access 'ERROR_NAME' in this context"))
 
     def test_encoded_name(self):
         arg = u('ERROR_NAME_\u03A9').encode('utf-8')
@@ -106,9 +107,13 @@ class UnauthorizedTests(unittest.TestCase):
         self.assertEqual(exc.needed, None)
 
         self.assertEqual(
-            bytes(exc), b"You are not allowed to access 'ERROR_NAME_\xce\xa9' in this context")
+            bytes(exc),
+            (b"You are not allowed to access "
+             b"'ERROR_NAME_\xce\xa9' in this context"))
         self.assertEqual(
-            unicode(exc), u("You are not allowed to access 'ERROR_NAME_\u03A9' in this context"))
+            unicode(exc),
+            u("You are not allowed to access "
+              "'ERROR_NAME_\u03A9' in this context"))
 
     def test_unicode_name(self):
         arg = u('ERROR_NAME_\u03A9')
@@ -120,12 +125,10 @@ class UnauthorizedTests(unittest.TestCase):
         self.assertEqual(exc.needed, None)
 
         self.assertEqual(
-            bytes(exc), b"You are not allowed to access 'ERROR_NAME_\xce\xa9' in this context")
+            bytes(exc),
+            (b"You are not allowed to access "
+             b"'ERROR_NAME_\xce\xa9' in this context"))
         self.assertEqual(
-            unicode(exc), u("You are not allowed to access 'ERROR_NAME_\u03A9' in this context"))
-
-
-def test_suite():
-    suite = unittest.TestSuite()
-    suite.addTest(unittest.makeSuite(UnauthorizedTests))
-    return suite
+            unicode(exc),
+            u("You are not allowed to access "
+              "'ERROR_NAME_\u03A9' in this context"))

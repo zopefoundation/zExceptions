@@ -42,8 +42,9 @@ class Unauthorized(Exception):
         (e.g. {'permission': 'add spam'}). Any extra keyword arguments
         provides are added to needed.
         """
-        if name is None and (
-                not isinstance(message, string_types) or len(message.split()) <= 1):
+        if (name is None and (
+                not isinstance(message, string_types) or
+                len(message.split()) <= 1)):
             # First arg is a name, not a message
             name = message
             message = None
@@ -62,12 +63,16 @@ class Unauthorized(Exception):
 
     def __unicode__(self):
         if self.message is not None:
-            message = self.message if isinstance(self.message, unicode) else self.message.decode(
-                'utf-8')
+            message = (self.message if
+                       isinstance(self.message, unicode) else
+                       self.message.decode('utf-8'))
             return message
         if self.name is not None:
-            name = self.name if isinstance(self.name, unicode) else self.name.decode('utf-8')
-            return ("You are not allowed to access '%s' in this context" % name)
+            name = (self.name if
+                    isinstance(self.name, unicode) else
+                    self.name.decode('utf-8'))
+            return ("You are not allowed to access '%s' in this context"
+                    % name)
         elif self.value is not None:
             return ("You are not allowed to access '%s' in this context"
                     % self.getValueName())

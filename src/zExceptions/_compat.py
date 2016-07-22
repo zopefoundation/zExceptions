@@ -2,7 +2,7 @@ import codecs
 import sys
 
 
-PY3 = sys.version_info[0] == 3
+PY3 = sys.version_info >= (3, 0)
 if PY3:
     import builtins
     class_types = type,
