@@ -25,7 +25,7 @@ setup(
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.org',
     long_description=(open('README.rst').read() + '\n' +
-                      open('CHANGES.txt').read()),
+                      open('CHANGES.rst').read()),
     packages=find_packages('src'),
     package_dir={'': 'src'},
     install_requires=[
