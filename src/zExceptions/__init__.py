@@ -72,13 +72,13 @@ status_reasons = {
     405: 'Method Not Allowed',
     406: 'Not Acceptable',
     407: 'Proxy Authentication Required',
-    408: 'Request Time-out',
+    408: 'Request Timeout',
     409: 'Conflict',
     410: 'Gone',
     411: 'Length Required',
     412: 'Precondition Failed',
     413: 'Request Entity Too Large',
-    414: 'Request-URI Too Large',
+    414: 'Request-URI Too Long',
     415: 'Unsupported Media Type',
     416: 'Requested Range Not Satisfiable',
     417: 'Expectation Failed',
@@ -89,16 +89,16 @@ status_reasons = {
     426: 'Upgrade Required',
     428: 'Precondition Required',
     429: 'Too Many Requests',
-    451: 'Unavailable for Legal Reasons',
     431: 'Request Header Fields Too Large',
+    451: 'Unavailable for Legal Reasons',
 
     # Server Error
     500: 'Internal Server Error',
     501: 'Not Implemented',
     502: 'Bad Gateway',
     503: 'Service Unavailable',
-    504: 'Gateway Time-out',
-    505: 'HTTP Version not supported',
+    504: 'Gateway Timeout',
+    505: 'HTTP Version Not Supported',
     507: 'Insufficient Storage',
     510: 'Not Extended',
     511: 'Network Authentication Required',
@@ -108,6 +108,7 @@ status_reasons = {
 @implementer(IHTTPException)
 class HTTPException(Exception):
     body = None
+    empty_body = False
     errmsg = 'Internal Server Error'
     status = 500
 
@@ -126,35 +127,151 @@ class HTTPException(Exception):
         self.errmsg = reason
 
     def __call__(self, environ, start_response):
-        headers = [('content-type', 'text/html;charset=utf-8')]
+        if self.empty_body:
+            headers = []
+        else:
+            headers = [('content-type', 'text/html;charset=utf-8')]
         if self.errmsg is not None:
             reason = self.errmsg
         reason = status_reasons[self.getStatus()]
         start_response(
             '%d %s' % (self.getStatus(), reason),
             headers)
+
+        if self.empty_body:
+            return []
+
         body = self.body
         if body is None:
             body = str(self)
         return [body]
 
 
-@implementer(IBadRequest)
-class BadRequest(HTTPException):
+class HTTPOk(HTTPException):
+    """Base class for 2xx status codes."""
+    errmsg = 'OK'
+    status = 200
+
+
+class HTTPCreated(HTTPOk):
+    errmsg = 'Created'
+    status = 201
+
+
+class HTTPAccepted(HTTPOk):
+    errmsg = 'Accepted'
+    status = 202
+
+
+class HTTPNonAuthoritativeInformation(HTTPOk):
+    errmsg = 'Non-Authoritative Information'
+    status = 203
+
+
+class HTTPNoContent(HTTPOk):
+    errmsg = 'No Content'
+    status = 204
+    empty_body = True
+
+
+class HTTPResetContent(HTTPOk):
+    errmsg = 'Reset Content'
+    status = 205
+    empty_body = True
+
+
+class HTTPPartialContent(HTTPOk):
+    errmsg = 'Partial Content'
+    status = 206
+
+
+class HTTPMultiStatus(HTTPOk):
+    errmsg = 'Multi-Status'
+    status = 207
+
+
+class HTTPIMUsed(HTTPOk):
+    errmsg = 'IM Used'
+    status = 226
+
+
+class HTTPRedirection(HTTPException):
+    """Base class for 3xx status codes."""
+
+
+class _HTTPMove(HTTPRedirection):
+    """Base class for redirections requiring a location header."""
+
+
+class HTTPMultipleChoices(_HTTPMove):
+    errmsg = 'Multiple Choices'
+    status = 300
+
+
+class HTTPMovedPermanently(_HTTPMove):
+    errmsg = 'Moved Permanently'
+    status = 301
+
+
+@implementer(IRedirect)
+class Redirect(_HTTPMove):
+    errmsg = 'Found'
+    status = 302
+
+HTTPFound = Redirect  # Alias
+
+
+class HTTPSeeOther(_HTTPMove):
+    errmsg = 'See Other'
+    status = 303
+
+
+class HTTPNotModified(HTTPRedirection):
+    errmsg = 'Not Modified'
+    status = 304
+    empty_body = True
+
+
+class HTTPUseProxy(_HTTPMove):
+    errmsg = 'Use Proxy'
+    status = 305
+
+
+class HTTPTemporaryRedirect(_HTTPMove):
+    errmsg = 'Temporary Redirect'
+    status = 307
+
+
+class HTTPPermanentRedirect(_HTTPMove):
+    errmsg = 'Permanent Redirect'
+    status = 308
+
+
+class HTTPError(HTTPException):
+    """Base class for 4xx and 5xx status codes."""
+
+
+class HTTPClientError(HTTPError):
+    """Base class for 4xx status codes."""
     errmsg = 'Bad Request'
     status = 400
 
 
-@implementer(IException)
-class InternalError(HTTPException):
-    errmsg = 'Internal Server Error'
-    status = 500
+@implementer(IBadRequest)
+class BadRequest(HTTPClientError):
+    pass
+
+HTTPBadRequest = BadRequest  # Alias
 
 
-@implementer(INotFound)
-class NotFound(HTTPException):
-    errmsg = 'Not Found'
-    status = 404
+# Import cycle.
+from .unauthorized import Unauthorized  # NOQA
+HTTPUnauthorized = Unauthorized  # Alias
+
+
+class HTTPPaymentRequired(HTTPClientError):
+    errmsg = 'Payment Required'
+    status = 402
 
 
 @implementer(IForbidden)
@@ -162,17 +279,179 @@ class Forbidden(HTTPException):
     errmsg = 'Forbidden'
     status = 403
 
+HTTPForbidden = Forbidden  # Alias
+
+
+@implementer(INotFound)
+class NotFound(HTTPException):
+    errmsg = 'Not Found'
+    status = 404
+
+HTTPNotFound = NotFound  # Alias
+
 
 @implementer(IMethodNotAllowed)
 class MethodNotAllowed(HTTPException):
     errmsg = 'Method Not Allowed'
     status = 405
 
+HTTPMethodNotAllowed = MethodNotAllowed  # Alias
 
-@implementer(IRedirect)
-class Redirect(HTTPException):
-    errmsg = 'Found'
-    status = 302
+
+class HTTPNotAcceptable(HTTPClientError):
+    errmsg = 'Not Acceptable'
+    status = 406
+
+
+class HTTPProxyAuthenticationRequired(HTTPClientError):
+    errmsg = 'Proxy Authentication Required'
+    status = 407
+
+
+class HTTPRequestTimeout(HTTPClientError):
+    errmsg = 'Request Timeout'
+    status = 408
+
+
+class HTTPConflict(HTTPClientError):
+    errmsg = 'Conflict'
+    status = 409
+
+
+class HTTPGone(HTTPClientError):
+    errmsg = 'Gone'
+    status = 410
+
+
+class HTTPLengthRequired(HTTPClientError):
+    errmsg = 'Length Required'
+    status = 411
+
+
+class HTTPPreconditionFailed(HTTPClientError):
+    errmsg = 'Precondition Failed'
+    status = 412
+
+
+class HTTPRequestEntityTooLarge(HTTPClientError):
+    errmsg = 'Request Entity Too Large'
+    status = 413
+
+
+class HTTPRequestURITooLong(HTTPClientError):
+    errmsg = 'Request-URI Too Long'
+    status = 414
+
+
+class HTTPUnsupportedMediaType(HTTPClientError):
+    errmsg = 'Unsupported Media Type'
+    status = 415
+
+
+class HTTPRequestRangeNotSatisfiable(HTTPClientError):
+    errmsg = 'Request Range Not Satisfiable'
+    status = 416
+
+
+class HTTPExpectationFailed(HTTPClientError):
+    errmsg = 'Expectation Failed'
+    status = 417
+
+
+class HTTPUnprocessableEntity(HTTPClientError):
+    errmsg = 'Unprocessable Entity'
+    status = 422
+
+
+class ResourceLockedError(HTTPException):
+    # Was defined in webdav.Lockable before.
+    errmsg = 'Locked'
+    status = 423
+
+HTTPLocked = ResourceLockedError  # Alias
+
+
+class HTTPFailedDependency(HTTPClientError):
+    errmsg = 'Failed Dependency'
+    status = 424
+
+
+class HTTPUpgradeRequired(HTTPClientError):
+    errmsg = 'Upgrade Required'
+    status = 426
+
+
+class HTTPPreconditionRequired(HTTPClientError):
+    errmsg = 'Precondition Required'
+    status = 428
+
+
+class HTTPTooManyRequests(HTTPClientError):
+    errmsg = 'Too Many Requests'
+    status = 429
+
+
+class HTTPRequestHeaderFieldsTooLarge(HTTPClientError):
+    errmsg = 'Request Header Fields Too Large'
+    status = 431
+
+
+class HTTPUnavailableForLegalReasons(HTTPClientError):
+    errmsg = 'Unavailable For Legal Reasons'
+    status = 451
+
+
+class HTTPServerError(HTTPError):
+    """Base class for 5xx status codes."""
+    errmsg = 'Internal Server Error'
+    status = 500
+
+
+@implementer(IException)
+class InternalError(HTTPServerError):
+    pass
+
+HTTPInternalServerError = InternalError  # Alias
+
+
+class HTTPNotImplemented(HTTPServerError):
+    errmsg = 'Not Implemented'
+    status = 501
+
+
+class HTTPBadGateway(HTTPServerError):
+    errmsg = 'Bad Gateway'
+    status = 502
+
+
+class HTTPServiceUnavailable(HTTPServerError):
+    errmsg = 'Service Unavailable'
+    status = 503
+
+
+class HTTPGatewayTimeout(HTTPServerError):
+    errmsg = 'Gateway Timeout'
+    status = 504
+
+
+class HTTPVersionNotSupported(HTTPServerError):
+    errmsg = 'HTTP Version Not Supported'
+    status = 505
+
+
+class HTTPInsufficientStorage(HTTPServerError):
+    errmsg = 'Insufficient Storage'
+    status = 507
+
+
+class HTTPNotExtended(HTTPServerError):
+    errmsg = 'Not Extended'
+    status = 510
+
+
+class HTTPNetworkAuthenticationRequired(HTTPServerError):
+    errmsg = 'Network Authentication Required'
+    status = 511
 
 
 def convertExceptionType(name):
@@ -206,5 +485,3 @@ def upgradeException(t, v):
             v = t, v
             t = InternalError
     return t, v
-
-from zExceptions.unauthorized import Unauthorized  # noqa

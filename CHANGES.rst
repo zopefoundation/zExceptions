@@ -4,6 +4,7 @@ Changelog
 3.3 (unreleased)
 ----------------
 
+- Add exception classes for all HTTP status codes.
 
 3.2 (2016-07-22)
 ----------------

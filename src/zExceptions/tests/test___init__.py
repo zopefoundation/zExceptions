@@ -55,6 +55,23 @@ class TestHTTPException(unittest.TestCase):
         )])
         self.assertEqual(response, ['<html>Foo</html>'])
 
+    def test_call_empty_body(self):
+        exc = self._makeOne()
+        exc.empty_body = True
+        exc.setBody('Foo')
+        exc.setStatus(204)
+
+        called = []
+
+        def start_response(status, headers):
+            called.append((status, headers))
+
+        response = exc({'Foo': 1}, start_response)
+        self.assertEqual(called, [(
+            '204 No Content', []
+        )])
+        self.assertEqual(response, [])
+
 
 class TestConvertExceptionType(unittest.TestCase):
 

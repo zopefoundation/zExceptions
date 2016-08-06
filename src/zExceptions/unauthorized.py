@@ -14,16 +14,18 @@
 from zope.interface import implementer
 from zope.security.interfaces import IUnauthorized
 
-from zExceptions import HTTPException
+from zExceptions import HTTPClientError
 from ._compat import PY3
 from ._compat import string_types
 from ._compat import unicode
 
 
 @implementer(IUnauthorized)
-class Unauthorized(HTTPException):
+class Unauthorized(HTTPClientError):
     """Some user wasn't allowed to access a resource
     """
+    errmsg = 'Unauthorized'
+    status = 401
 
     def _get_message(self):
         return self._message
