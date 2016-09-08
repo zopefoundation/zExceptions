@@ -55,6 +55,27 @@ class TestHTTPException(unittest.TestCase):
         )])
         self.assertEqual(response, ['<html>Foo</html>'])
 
+    def test_call_detail(self):
+        exc = self._makeOne('Foo Error')
+        exc.title = 'Foo'
+        exc.detail = '<p>Some foo is going on.</p>'
+        exc.setStatus(503)
+
+        called = []
+
+        def start_response(status, headers):
+            called.append((status, headers))
+
+        response = exc({'Foo': 1}, start_response)
+        self.assertEqual(called, [(
+            '503 Service Unavailable',
+            [('content-type', 'text/html;charset=utf-8')]
+        )])
+        response = ''.join(response)
+        self.assertTrue(response.startswith('<!DOCTYPE html>'))
+        self.assertTrue('<p><strong>Foo</strong></p>' in response)
+        self.assertTrue('<p>Some foo is going on.</p>' in response)
+
     def test_call_empty_body(self):
         exc = self._makeOne()
         exc.empty_body = True

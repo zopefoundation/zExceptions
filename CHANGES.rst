@@ -4,6 +4,9 @@ Changelog
 3.4 (unreleased)
 ----------------
 
+- Use `HTTPException.body_template` when title and detail are set.
+
+- Add new title and detail attributes to HTTPException.
 
 3.3 (2016-08-06)
 ----------------
