@@ -1,7 +1,11 @@
 Changelog
 =========
 
-3.4 (20160-09-08)
+3.5 (unreleased)
+----------------
+
+
+3.4 (2016-09-08)
 ----------------
 
 - Use `HTTPException.body_template` when title and detail are set.
