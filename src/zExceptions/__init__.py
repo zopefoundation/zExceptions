@@ -177,11 +177,13 @@ class HTTPException(Exception):
 
         body = self.body
         if body is None:
-            if self.title and self.detail:
+            message = str(self)
+            detail = self.detail if self.detail is not None else message
+            if self.title and detail:
                 body = self.body_template.format(
-                    title=self.title, detail=self.detail)
+                    title=self.title, detail=detail)
             else:
-                body = str(self)
+                body = message
         return [body]
 
 

@@ -36,7 +36,10 @@ class TestHTTPException(unittest.TestCase):
             '500 Internal Server Error',
             [('content-type', 'text/html;charset=utf-8')]
         )])
-        self.assertEqual(response, ['Foo Error'])
+        response = ''.join(response)
+        self.assertTrue(response.startswith('<!DOCTYPE html>'))
+        self.assertTrue('Sorry, a site error occurred.' in response)
+        self.assertTrue('Foo Error' in response)
 
     def test_call_custom(self):
         exc = self._makeOne('Foo Error')

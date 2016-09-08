@@ -4,6 +4,7 @@ Changelog
 3.5 (unreleased)
 ----------------
 
+- Use `str(self)` as detail if it is not set.
 
 3.4 (2016-09-08)
 ----------------
