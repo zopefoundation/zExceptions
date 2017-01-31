@@ -166,7 +166,7 @@ class HTTPException(Exception):
         self.headers[name] = value
 
     def __call__(self, environ, start_response):
-        headers = getattr(self, 'headers', {}).items()
+        headers = list(getattr(self, 'headers', {}).items())
         if not self.empty_body:
             headers.append(('content-type', 'text/html;charset=utf-8'))
         if self.errmsg is not None:
