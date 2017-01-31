@@ -160,11 +160,15 @@ class HTTPException(Exception):
             reason = reason
         self.errmsg = reason
 
+    def setHeader(self, name, value):
+        if not hasattr(self, 'headers'):
+            self.headers = {}
+        self.headers[name] = value
+
     def __call__(self, environ, start_response):
-        if self.empty_body:
-            headers = []
-        else:
-            headers = [('content-type', 'text/html;charset=utf-8')]
+        headers = getattr(self, 'headers', {}).items()
+        if not self.empty_body:
+            headers.append(('content-type', 'text/html;charset=utf-8'))
         if self.errmsg is not None:
             reason = self.errmsg
         reason = status_reasons[self.getStatus()]
