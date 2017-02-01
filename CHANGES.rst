@@ -6,6 +6,8 @@ Changelog
 
 - Use `str(self)` as detail if it is not set.
 
+- Add a `setHeader` method to add a response header to an HTTPException.
+
 3.4 (2016-09-08)
 ----------------
 
