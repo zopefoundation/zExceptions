@@ -16,6 +16,14 @@ class TestHTTPException(unittest.TestCase):
         exc.setBody('Foo')
         self.assertEqual(exc.body, 'Foo')
 
+    def test_headers(self):
+        url = 'http://localhost/foo'
+        exc = self._makeOne(url)
+        self.assertTrue(getattr(exc, 'headers', None) is None)
+
+        exc.setHeader('Location', url)
+        self.assertEqual(exc.headers, {'Location': url})
+
     def test_status(self):
         exc = self._makeOne()
         self.assertEqual(exc.getStatus(), 500)
@@ -95,6 +103,26 @@ class TestHTTPException(unittest.TestCase):
             '204 No Content', []
         )])
         self.assertEqual(response, [])
+
+    def test_call_extra_headers(self):
+        url = 'http://localhost/foo'
+        exc = self._makeOne(url)
+        exc.setStatus(302)
+        exc.setHeader('Location', url)
+
+        called = []
+
+        def start_response(status, headers):
+            called.append((status, headers))
+
+        response = exc({'Foo': 1}, start_response)
+        self.assertEqual(called, [(
+            '302 Found',
+            [('Location', url),
+             ('content-type', 'text/html;charset=utf-8')]
+        )])
+        response = ''.join(response)
+        self.assertTrue(response.startswith('<!DOCTYPE html>'))
 
 
 class TestConvertExceptionType(unittest.TestCase):
