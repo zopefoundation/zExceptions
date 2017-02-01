@@ -4,6 +4,8 @@ Changelog
 3.5 (unreleased)
 ----------------
 
+- Drop support for Python 3.3, add support for Python 3.6.
+
 - Use `str(self)` as detail if it is not set.
 
 - Add a `setHeader` method to add a response header to an HTTPException.
