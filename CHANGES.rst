@@ -10,6 +10,9 @@ Changelog
 
 - Add a `setHeader` method to add a response header to an HTTPException.
 
+- `upgradeException` now also supports finding an HTTPException class
+  with the same name as a non-HTTPException class.
+
 3.4 (2016-09-08)
 ----------------
 

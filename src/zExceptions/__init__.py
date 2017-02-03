@@ -528,4 +528,8 @@ def upgradeException(t, v):
         else:
             v = t, v
             t = InternalError
+    else:
+        etype = convertExceptionType(t.__name__)
+        if etype is not None:
+            t = etype
     return t, v
