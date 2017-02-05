@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.5 (unreleased)
+3.5 (2017-02-05)
 ----------------
 
 - Drop support for Python 3.3, add support for Python 3.6.
