@@ -25,6 +25,7 @@ class Unauthorized(HTTPClientError):
     """Some user wasn't allowed to access a resource
     """
     errmsg = 'Unauthorized'
+    realm = None
     status = 401
 
     def _get_message(self):
@@ -32,7 +33,8 @@ class Unauthorized(HTTPClientError):
 
     message = property(_get_message,)
 
-    def __init__(self, message=None, value=None, needed=None, name=None, **kw):
+    def __init__(self, message=None, value=None, needed=None,
+                 name=None, realm=None, **kw):
         """Possible signatures:
 
         Unauthorized()
@@ -41,6 +43,7 @@ class Unauthorized(HTTPClientError):
         Unauthorized(name, value)
         Unauthorized(name, value, needed)
         Unauthorized(message, value, needed, name)
+        Unauthorized(message, value, needed, name, realm)
 
         Where needed is a mapping objects with items representing requirements
         (e.g. {'permission': 'add spam'}). Any extra keyword arguments
@@ -56,6 +59,7 @@ class Unauthorized(HTTPClientError):
         self.name = name
         self._message = message
         self.value = value
+        self.setRealm(realm)
 
         if kw:
             if needed:
@@ -90,6 +94,11 @@ class Unauthorized(HTTPClientError):
     else:
         def __str__(self):
             return self.__unicode__().encode('utf-8')
+
+    def setRealm(self, value):
+        self.realm = value
+        if value:
+            self.setHeader('WWW-Authenticate', 'basic realm="%s"' % value)
 
     def getValueName(self):
         v = self.value

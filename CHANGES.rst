@@ -4,6 +4,10 @@ Changelog
 3.6 (unreleased)
 ----------------
 
+- Add realm as an argument to unauthorized exceptions, its presence
+  causing a `WWW-Authenticate` header to be emitted.
+
+- Set `location` header during `__init__` of redirect exceptions.
 
 3.5 (2017-02-05)
 ----------------

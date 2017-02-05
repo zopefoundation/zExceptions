@@ -125,6 +125,39 @@ class TestHTTPException(unittest.TestCase):
         self.assertTrue(response.startswith('<!DOCTYPE html>'))
 
 
+class TestRedirect(unittest.TestCase):
+
+    def test_location_header_302(self):
+        from zExceptions import HTTPFound
+        exc = HTTPFound('/redirect_to')
+        self.assertEqual(exc.headers, {'Location': '/redirect_to'})
+
+    def test_location_header_304(self):
+        from zExceptions import HTTPNotModified
+        exc = HTTPNotModified('/not_modified')
+        self.assertFalse(getattr(exc, 'headers', None))
+
+
+class TestUnauthorized(unittest.TestCase):
+
+    def _getTargetClass(self):
+        from zExceptions import Unauthorized
+        return Unauthorized
+
+    def _makeOne(self, *args, **kw):
+        return self._getTargetClass()(*args, **kw)
+
+    def test_realm(self):
+        exc = self._makeOne('message', realm='special')
+        self.assertEqual(exc.headers,
+                         {'WWW-Authenticate': 'basic realm="special"'})
+
+    def test_location_header_304(self):
+        from zExceptions import HTTPNotModified
+        exc = HTTPNotModified('/not_modified')
+        self.assertFalse(getattr(exc, 'headers', None))
+
+
 class TestConvertExceptionType(unittest.TestCase):
 
     def _callFUT(self, name):

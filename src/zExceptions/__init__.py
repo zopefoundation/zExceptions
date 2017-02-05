@@ -246,6 +246,10 @@ class HTTPRedirection(HTTPException):
 class _HTTPMove(HTTPRedirection):
     """Base class for redirections requiring a location header."""
 
+    def __init__(self, *args):
+        super(_HTTPMove, self).__init__(*args)
+        self.setHeader('Location', args[0])
+
 
 class HTTPMultipleChoices(_HTTPMove):
     errmsg = 'Multiple Choices'
