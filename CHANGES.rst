@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.6 (unreleased)
+3.6 (2017-02-05)
 ----------------
 
 - Add realm as an argument to unauthorized exceptions, its presence
