@@ -172,3 +172,12 @@ class TestUpgradeException(unittest.TestCase):
         t, v = self._callFUT('Nonesuch', 'TEST')
         self.assertEqual(t, InternalError)
         self.assertEqual(v, ('Nonesuch', 'TEST'))
+
+    def test_non_string_match_by_name(self):
+        class NotFound(Exception):
+            pass
+
+        t, v = self._callFUT(NotFound, 'TEST')
+        from zExceptions import NotFound as zExceptions_NotFound
+        self.assertIs(t, zExceptions_NotFound)
+        self.assertEqual(v, 'TEST')
