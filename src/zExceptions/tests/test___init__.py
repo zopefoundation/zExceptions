@@ -44,10 +44,10 @@ class TestHTTPException(unittest.TestCase):
             '500 Internal Server Error',
             [('content-type', 'text/html;charset=utf-8')]
         )])
-        response = ''.join(response)
-        self.assertTrue(response.startswith('<!DOCTYPE html>'))
-        self.assertTrue('Sorry, a site error occurred.' in response)
-        self.assertTrue('Foo Error' in response)
+        response = b''.join(response)
+        self.assertTrue(response.startswith(b'<!DOCTYPE html>'))
+        self.assertTrue(b'Sorry, a site error occurred.' in response)
+        self.assertTrue(b'Foo Error' in response)
 
     def test_call_custom(self):
         exc = self._makeOne('Foo Error')
@@ -82,10 +82,10 @@ class TestHTTPException(unittest.TestCase):
             '503 Service Unavailable',
             [('content-type', 'text/html;charset=utf-8')]
         )])
-        response = ''.join(response)
-        self.assertTrue(response.startswith('<!DOCTYPE html>'))
-        self.assertTrue('<p><strong>Foo</strong></p>' in response)
-        self.assertTrue('<p>Some foo is going on.</p>' in response)
+        response = b''.join(response)
+        self.assertTrue(response.startswith(b'<!DOCTYPE html>'))
+        self.assertTrue(b'<p><strong>Foo</strong></p>' in response)
+        self.assertTrue(b'<p>Some foo is going on.</p>' in response)
 
     def test_call_empty_body(self):
         exc = self._makeOne()
@@ -121,8 +121,8 @@ class TestHTTPException(unittest.TestCase):
             [('Location', url),
              ('content-type', 'text/html;charset=utf-8')]
         )])
-        response = ''.join(response)
-        self.assertTrue(response.startswith('<!DOCTYPE html>'))
+        response = b''.join(response)
+        self.assertTrue(response.startswith(b'<!DOCTYPE html>'))
 
 
 class TestRedirect(unittest.TestCase):
