@@ -51,11 +51,11 @@ class Test(TestCase):
         try:
             raise ExceptionForTesting()
         except ExceptionForTesting:
-            s = tb(as_html)
+            string = tb(as_html)
             # The traceback should include the name of this function.
-            self.assert_(s.find('testBasicNamesText') >= 0)
+            self.assertIn('testBasicNamesText', string)
             # The traceback should include the name of the exception.
-            self.assert_(s.find('ExceptionForTesting') >= 0)
+            self.assertIn('ExceptionForTesting', string)
         else:
             self.fail('no exception occurred')
 
@@ -65,20 +65,21 @@ class Test(TestCase):
     def testSupplement(self, as_html=0):
         try:
             __traceback_supplement__ = (TestingTracebackSupplement,
-                                        "You're one in a million")
+                                        "You are one in a million")
             raise ExceptionForTesting
         except ExceptionForTesting:
-            s = tb(as_html)
+            # import pdb; pdb.set_trace()
+            string = tb(as_html)
             # The source URL
-            self.assert_(s.find('/somepath') >= 0, s)
+            self.assertIn('/somepath', string)
             # The line number
-            self.assert_(s.find('634') >= 0, s)
+            self.assertIn('634', string)
             # The column number
-            self.assert_(s.find('57') >= 0, s)
+            self.assertIn('57', string)
             # The expression
-            self.assert_(s.find("You're one in a million") >= 0, s)
+            self.assertIn("You are one in a million", string)
             # The warning
-            self.assert_(s.find("Repent, for the end is nigh") >= 0, s)
+            self.assertIn("Repent, for the end is nigh", string)
         else:
             self.fail('no exception occurred')
 
@@ -90,12 +91,12 @@ class Test(TestCase):
             __traceback_info__ = "Adam & Eve"
             raise ExceptionForTesting
         except ExceptionForTesting:
-            s = tb(as_html)
+            string = tb(as_html)
             if as_html:
                 # Be sure quoting is happening.
-                self.assert_(s.find('Adam &amp; Eve') >= 0, s)
+                self.assertIn('Adam &amp; Eve', string)
             else:
-                self.assert_(s.find('Adam & Eve') >= 0, s)
+                self.assertIn('Adam & Eve', string)
         else:
             self.fail('no exception occurred')
 
@@ -115,9 +116,9 @@ class Test(TestCase):
         try:
             f(10)
         except ExceptionForTesting:
-            s = tb()
+            string = tb()
             for n in range(11):
-                self.assert_(s.find('level%d' % n) >= 0, s)
+                self.assertIn('level%d' % n, string)
         else:
             self.fail('no exception occurred')
 
@@ -126,9 +127,9 @@ class Test(TestCase):
             pass
         try:
             raise TypeError(C())
-        except:
-            s = tb(1)
+        except Exception:
+            string = tb(1)
         else:
             self.fail('no exception occurred')
-        self.assert_(s.find('&lt;') >= 0, s)
-        self.assert_(s.find('&gt;') >= 0, s)
+        self.assertIn('&lt;', string)
+        self.assertIn('&gt;', string)
