@@ -16,7 +16,11 @@ optionally in HTML.
 """
 
 import sys
-import cgi
+
+try:
+    from html import escape as html_escape
+except ImportError:  # PY2
+    from cgi import escape as html_escape
 
 DEBUG_EXCEPTION_FORMATTER = 1
 
@@ -201,7 +205,7 @@ class HTMLExceptionFormatter(TextExceptionFormatter):
     line_sep = '<br />\r\n'
 
     def escape(self, s):
-        return cgi.escape(s)
+        return html_escape(s)
 
     def getPrefix(self):
         return '<p>Traceback (innermost last):</p>\r\n<ul>'
