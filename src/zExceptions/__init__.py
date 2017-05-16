@@ -186,10 +186,10 @@ class HTTPException(Exception):
             if self.title and detail:
                 body = self.body_template.format(
                     title=self.title, detail=detail)
-                body = body.encode('utf-8')
+                body = body
             else:
                 body = message
-        return [body]
+        return [body.encode('utf-8')]
 
 
 class HTTPOk(HTTPException):

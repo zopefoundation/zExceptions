@@ -64,7 +64,7 @@ class TestHTTPException(unittest.TestCase):
             '503 Service Unavailable',
             [('content-type', 'text/html;charset=utf-8')]
         )])
-        self.assertEqual(response, ['<html>Foo</html>'])
+        self.assertEqual(response, [b'<html>Foo</html>'])
 
     def test_call_detail(self):
         exc = self._makeOne('Foo Error')
