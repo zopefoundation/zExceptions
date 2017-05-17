@@ -14,7 +14,7 @@
 
 from setuptools import setup, find_packages
 
-__version__ = '3.6.1'
+__version__ = '3.7.dev0'
 
 setup(
     name='zExceptions',
