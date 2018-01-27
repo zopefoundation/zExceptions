@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.0 (unreleased)
+4.0 (2018-01-27)
 ----------------
 
 - Drop support for string exceptions.
