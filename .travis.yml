@@ -11,7 +11,7 @@ install:
     - pip install zope.testrunner
     - pip install coveralls coverage
 script:
-    - coverage run zope-testrunner --path=src --all -v
+    - coverage run -m zope.testrunner --path=src --all -v
 after_success:
     - coveralls
 notifications:
