@@ -14,11 +14,10 @@
 
 from setuptools import setup, find_packages
 
-__version__ = '4.0.dev0'
 
 setup(
     name='zExceptions',
-    version=__version__,
+    version='4.0.dev0',
     url='https://github.com/zopefoundation/zExceptions',
     license='ZPL 2.1',
     description="zExceptions contains common exceptions used in Zope.",
