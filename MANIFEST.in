@@ -1,5 +1,6 @@
 include *.rst
 include *.txt
+include tox.ini
 
 recursive-include src *
 
