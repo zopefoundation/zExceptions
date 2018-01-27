@@ -165,17 +165,17 @@ class TestConvertExceptionType(unittest.TestCase):
         return convertExceptionType(name)
 
     def test_name_in___builtins__(self):
-        self.failUnless(self._callFUT('SyntaxError') is SyntaxError)
+        self.assertTrue(self._callFUT('SyntaxError') is SyntaxError)
 
     def test_name_in___builtins___not_an_exception_returns_None(self):
-        self.failUnless(self._callFUT('unichr') is None)
+        self.assertTrue(self._callFUT('unichr') is None)
 
     def test_name_in_zExceptions(self):
         from zExceptions import Redirect
-        self.failUnless(self._callFUT('Redirect') is Redirect)
+        self.assertTrue(self._callFUT('Redirect') is Redirect)
 
     def test_name_in_zExceptions_not_an_exception_returns_None(self):
-        self.failUnless(self._callFUT('convertExceptionType') is None)
+        self.assertTrue(self._callFUT('convertExceptionType') is None)
 
 
 class TestUpgradeException(unittest.TestCase):
