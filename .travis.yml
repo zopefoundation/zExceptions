@@ -6,12 +6,14 @@ python:
     - 3.5
     - 3.6
     - pypy
-    - pypy3.3-5.2-alpha1
+    - pypy3
 install:
-    - python bootstrap.py
-    - bin/buildout
+    - pip install zope.testrunner
+    - pip install coveralls coverage
 script:
-    - bin/test -v1
+    - coverage run zope-testrunner --path=src --all -v
+after_success:
+    - coveralls
 notifications:
     email: false
 cache:
