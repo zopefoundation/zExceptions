@@ -16,3 +16,4 @@ eggs/
 coverage.xml
 .tox
 nosetests.xml
+htmlcov/
