@@ -19,9 +19,9 @@ __version__ = '3.7.dev0'
 setup(
     name='zExceptions',
     version=__version__,
-    url='http://pypi.python.org/pypi/zExceptions',
+    url='https://github.com/zopefoundation/zExceptions',
     license='ZPL 2.1',
-    description="zExceptions contains common exceptions used in Zope2.",
+    description="zExceptions contains common exceptions used in Zope.",
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.org',
     long_description=(open('README.rst').read() + '\n' +
@@ -38,6 +38,8 @@ setup(
         "Development Status :: 6 - Mature",
         "Environment :: Web Environment",
         "Framework :: Zope2",
+        "Framework :: Zope :: 2",
+        "Framework :: Zope :: 4",
         "License :: OSI Approved :: Zope Public License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
