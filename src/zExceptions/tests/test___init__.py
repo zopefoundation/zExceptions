@@ -189,23 +189,6 @@ class TestUpgradeException(unittest.TestCase):
         self.assertEqual(t, SyntaxError)
         self.assertEqual(v, 'TEST')
 
-    def test_string_in___builtins__(self):
-        t, v = self._callFUT('SyntaxError', 'TEST')
-        self.assertEqual(t, SyntaxError)
-        self.assertEqual(v, 'TEST')
-
-    def test_string_in_zExceptions(self):
-        from zExceptions import Redirect
-        t, v = self._callFUT('Redirect', 'http://example.com/')
-        self.assertEqual(t, Redirect)
-        self.assertEqual(v, 'http://example.com/')
-
-    def test_string_miss_returns_InternalError(self):
-        from zExceptions import InternalError
-        t, v = self._callFUT('Nonesuch', 'TEST')
-        self.assertEqual(t, InternalError)
-        self.assertEqual(v, ('Nonesuch', 'TEST'))
-
     def test_non_string_match_by_name(self):
         class NotFound(Exception):
             pass

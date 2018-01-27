@@ -15,9 +15,6 @@
 These exceptions are so general purpose that they don't belong in Zope
 application-specific packages.
 """
-
-import warnings
-
 from zope.interface import implementer
 from zope.interface.common.interfaces import IException
 from zope.publisher.interfaces.http import (
@@ -33,7 +30,6 @@ from zope.security.interfaces import IForbidden
 
 from ._compat import builtins
 from ._compat import class_types
-from ._compat import string_types
 
 
 status_reasons = {
@@ -517,24 +513,7 @@ def convertExceptionType(name):
 
 
 def upgradeException(t, v):
-    # If a string exception is found, convert it to an equivalent
-    # exception defined either in builtins or zExceptions. If none of
-    # that works, then convert it to an InternalError and keep the
-    # original exception name as part of the exception value.
-    if isinstance(t, string_types):
-        warnings.warn(
-            'String exceptions are deprecated starting '
-            'with Python 2.5 and will be removed in a '
-            'future release', DeprecationWarning, stacklevel=2)
-
-        etype = convertExceptionType(t)
-        if etype is not None:
-            t = etype
-        else:
-            v = t, v
-            t = InternalError
-    else:
-        etype = convertExceptionType(t.__name__)
-        if etype is not None:
-            t = etype
+    etype = convertExceptionType(t.__name__)
+    if etype is not None:
+        t = etype
     return t, v
