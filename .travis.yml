@@ -9,7 +9,7 @@ python:
     - pypy3
 include:
     matrix:
-        - python: "3.7"
+        - python: 3.7
           dist: xenial
           sudo: true
 install:
