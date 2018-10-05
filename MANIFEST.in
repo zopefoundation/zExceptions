@@ -1,6 +1,7 @@
 include *.rst
 include *.txt
 include tox.ini
+include .coveragerc
 
 recursive-include src *
 
