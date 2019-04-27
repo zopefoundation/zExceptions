@@ -1,17 +1,14 @@
 language: python
-sudo: false
+dist: xenial
 python:
     - 2.7
     - 3.4
     - 3.5
     - 3.6
+    - 3.7
+    - 3.8-dev
     - pypy
     - pypy3
-matrix:
-    include:
-        - python: "3.7"
-          dist: xenial
-          sudo: true
 install:
     - pip install zope.testrunner
     - pip install coveralls coverage
