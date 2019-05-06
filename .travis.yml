@@ -21,5 +21,3 @@ notifications:
     email: false
 cache:
   pip: true
-  directories:
-    - eggs/
