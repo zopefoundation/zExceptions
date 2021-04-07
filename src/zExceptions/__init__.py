@@ -401,7 +401,7 @@ class HTTPExpectationFailed(HTTPClientError):
     status = 417
 
 
-class HTTPIMATeapot(HTTPClientError):
+class HTTPImATeapot(HTTPClientError):
     errmsg = "I'm a teapot"
     status = 418
 
