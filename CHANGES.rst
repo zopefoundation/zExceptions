@@ -8,6 +8,8 @@ Changelog
 
 - Drop support for Python 3.4.
 
+- Add an exception for the HTTP status code 418
+
 
 4.1 (2018-10-05)
 ----------------
