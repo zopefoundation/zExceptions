@@ -401,6 +401,11 @@ class HTTPExpectationFailed(HTTPClientError):
     status = 417
 
 
+class HTTPIMATeapot(HTTPClientError):
+    errmsg = "I'm a teapot"
+    status = 418
+
+
 class HTTPUnprocessableEntity(HTTPClientError):
     errmsg = 'Unprocessable Entity'
     status = 422
