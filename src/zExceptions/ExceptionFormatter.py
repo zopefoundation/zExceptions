@@ -56,7 +56,7 @@ class TextExceptionFormatter(object):
         if revision is not None:
             try:
                 revision = str(revision).strip()
-            except:
+            except:  # noqa: E722 do not use bare 'except'
                 revision = '???'
         return revision
 
@@ -156,7 +156,7 @@ class TextExceptionFormatter(object):
             try:
                 supp = factory(*args)
                 result.extend(self.formatSupplement(supp, tb))
-            except:
+            except:  # noqa: E722 do not use bare 'except'
                 if DEBUG_EXCEPTION_FORMATTER:
                     import traceback
                     traceback.print_exc()
@@ -166,7 +166,7 @@ class TextExceptionFormatter(object):
             tbi = locals.get('__traceback_info__', None)
             if tbi is not None:
                 result.append(self.formatTracebackInfo(tbi))
-        except:
+        except:  # noqa: E722 do not use bare 'except'
             pass
 
         return self.line_sep.join(result)
