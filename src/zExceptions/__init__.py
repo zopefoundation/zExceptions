@@ -163,7 +163,8 @@ class HTTPException(Exception):
 
     def __call__(self, environ, start_response):
         headers = list(getattr(self, 'headers', {}).items())
-        if not self.empty_body:
+        if not self.empty_body and \
+                'content-type' not in getattr(self, 'headers', {}):
             headers.append(('content-type', 'text/html;charset=utf-8'))
         reason = status_reasons[self.getStatus()]
         start_response(

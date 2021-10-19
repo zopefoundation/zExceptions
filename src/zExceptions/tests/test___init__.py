@@ -1,3 +1,4 @@
+import json
 import unittest
 
 
@@ -123,6 +124,26 @@ class TestHTTPException(unittest.TestCase):
         )])
         response = b''.join(response)
         self.assertTrue(response.startswith(b'<!DOCTYPE html>'))
+
+    def test_custom_contenttype(self):
+        url = 'http://localhost/foo'
+        exc = self._makeOne(url)
+        exc.setStatus(200)
+        exc.setHeader('content-type', 'application/json')
+        exc.setBody(json.dumps({'foo': 'bar'}))
+
+        called = []
+
+        def start_response(status, headers):
+            called.append((status, headers))
+
+        response = exc({'Foo': 1}, start_response)
+        self.assertEqual(called, [(
+            '200 OK',
+            [('content-type', 'application/json')]
+        )])
+        response = b''.join(response)
+        self.assertEqual(response, b'{"foo": "bar"}')
 
 
 class TestRedirect(unittest.TestCase):
