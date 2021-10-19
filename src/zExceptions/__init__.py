@@ -261,6 +261,7 @@ class Redirect(_HTTPMove):
     errmsg = 'Found'
     status = 302
 
+
 HTTPFound = Redirect  # Alias
 
 
@@ -304,6 +305,7 @@ class HTTPClientError(HTTPError):
 class BadRequest(HTTPClientError):
     pass
 
+
 HTTPBadRequest = BadRequest  # Alias
 
 
@@ -322,6 +324,7 @@ class Forbidden(HTTPException):
     errmsg = 'Forbidden'
     status = 403
 
+
 HTTPForbidden = Forbidden  # Alias
 
 
@@ -330,6 +333,7 @@ class NotFound(HTTPException):
     errmsg = 'Not Found'
     status = 404
 
+
 HTTPNotFound = NotFound  # Alias
 
 
@@ -337,6 +341,7 @@ HTTPNotFound = NotFound  # Alias
 class MethodNotAllowed(HTTPException):
     errmsg = 'Method Not Allowed'
     status = 405
+
 
 HTTPMethodNotAllowed = MethodNotAllowed  # Alias
 
@@ -416,6 +421,7 @@ class ResourceLockedError(HTTPException):
     errmsg = 'Locked'
     status = 423
 
+
 HTTPLocked = ResourceLockedError  # Alias
 
 
@@ -458,6 +464,7 @@ class HTTPServerError(HTTPError):
 @implementer(IException)
 class InternalError(HTTPServerError):
     pass
+
 
 HTTPInternalServerError = InternalError  # Alias
 

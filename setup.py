@@ -23,10 +23,17 @@ setup(
     description="zExceptions contains common exceptions used in Zope.",
     author='Zope Foundation and Contributors',
     author_email='zope-dev@zope.org',
+    project_urls={
+        'Issue Tracker': 'https://github.com/zopefoundation/'
+                         'zExceptions/issues',
+        'Sources': 'https://github.com/zopefoundation/zExceptions',
+    },
+
     long_description=(open('README.rst').read() + '\n' +
                       open('CHANGES.rst').read()),
     packages=find_packages('src'),
     package_dir={'': 'src'},
+    python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*',
     install_requires=[
         'setuptools',
         'zope.interface',
@@ -49,6 +56,8 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: Implementation :: CPython",
         "Programming Language :: Python :: Implementation :: PyPy",
     ],
