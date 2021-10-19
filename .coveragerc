@@ -1,6 +1,0 @@
-[run]
-branch = True
-source = zExceptions
-
-[report]
-precision = 2
