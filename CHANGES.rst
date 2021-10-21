@@ -10,7 +10,8 @@ Changelog
 
 - Add an exception for the HTTP status code 418
 
-- Don't override the `content-type` header if set.
+- Don't override the `content-type` header if already set.
+  (`#12 <https://github.com/zopefoundation/zExceptions/pull/12>`_)
 
 
 4.1 (2018-10-05)
