@@ -17,7 +17,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='zExceptions',
-    version='4.2',
+    version='4.3.dev0',
     url='https://github.com/zopefoundation/zExceptions',
     license='ZPL 2.1',
     description="zExceptions contains common exceptions used in Zope.",
