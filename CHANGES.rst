@@ -8,7 +8,7 @@ Changelog
 
 - Drop support for Python 3.4.
 
-- Add an exception for the HTTP status code 418
+- Add an exception for the HTTP status code 418.
 
 - Don't override the `content-type` header if already set.
   (`#12 <https://github.com/zopefoundation/zExceptions/pull/12>`_)
