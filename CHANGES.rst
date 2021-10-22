@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.2 (unreleased)
+4.2 (2021-10-22)
 ----------------
 
 - Add support for Python 3.8, 3.9 and 3.10.
