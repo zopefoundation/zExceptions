@@ -1,7 +1,7 @@
 Changelog
 =========
 
-4.3 (unreleased)
+4.3 (2022-12-18)
 ----------------
 
 - Sort imports with isort.
