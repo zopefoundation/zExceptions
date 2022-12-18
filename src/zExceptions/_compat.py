@@ -8,8 +8,9 @@ if PY3:  # pragma: PY3
     string_types = (str, bytes)
     unicode = str
 else:  # pragma: PY2
-    import __builtin__ as builtins  # noqa: F401 import unused
     from types import ClassType
+
+    import __builtin__ as builtins  # noqa: F401 import unused
     class_types = (type, ClassType)
     string_types = basestring,  # noqa: F821 undefined name 'basestring'
     unicode = unicode

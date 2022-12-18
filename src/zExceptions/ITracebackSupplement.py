@@ -14,8 +14,8 @@
 """ITracebackSupplement interface definition.
 """
 
-from zope.interface import Interface
 from zope.interface import Attribute
+from zope.interface import Interface
 
 
 class ITracebackSupplement(Interface):

@@ -4,7 +4,9 @@ Changelog
 4.3 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Sort imports with isort.
+
+- Add support for Python 3.11.
 
 
 4.2 (2021-10-22)

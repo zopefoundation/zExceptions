@@ -17,6 +17,7 @@ optionally in HTML.
 
 import sys
 
+
 try:
     from html import escape as html_escape
 except ImportError:  # PY2

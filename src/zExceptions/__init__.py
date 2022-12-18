@@ -17,15 +17,11 @@ application-specific packages.
 """
 from zope.interface import implementer
 from zope.interface.common.interfaces import IException
-from zope.publisher.interfaces.http import (
-    IHTTPException,
-    IMethodNotAllowed,
-)
-from zope.publisher.interfaces import (
-    IBadRequest,
-    INotFound,
-    IRedirect,
-)
+from zope.publisher.interfaces import IBadRequest
+from zope.publisher.interfaces import INotFound
+from zope.publisher.interfaces import IRedirect
+from zope.publisher.interfaces.http import IHTTPException
+from zope.publisher.interfaces.http import IMethodNotAllowed
 from zope.security.interfaces import IForbidden
 
 from ._compat import builtins
@@ -312,6 +308,8 @@ HTTPBadRequest = BadRequest  # Alias
 
 # Import cycle.
 from .unauthorized import Unauthorized  # NOQA
+
+
 HTTPUnauthorized = Unauthorized  # Alias
 
 

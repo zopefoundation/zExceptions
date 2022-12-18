@@ -15,6 +15,7 @@ from zope.interface import implementer
 from zope.security.interfaces import IUnauthorized
 
 from zExceptions import HTTPClientError
+
 from ._compat import PY3
 from ._compat import string_types
 from ._compat import unicode

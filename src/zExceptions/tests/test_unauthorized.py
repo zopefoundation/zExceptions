@@ -15,7 +15,9 @@
 """
 
 import unittest
+
 from zope.interface.verify import verifyClass
+
 from .._compat import unicode
 
 
