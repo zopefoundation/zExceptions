@@ -16,17 +16,13 @@ optionally in HTML.
 """
 
 import sys
+from html import escape as html_escape
 
-
-try:
-    from html import escape as html_escape
-except ImportError:  # PY2
-    from cgi import escape as html_escape
 
 DEBUG_EXCEPTION_FORMATTER = 1
 
 
-class TextExceptionFormatter(object):
+class TextExceptionFormatter:
 
     line_sep = '\n'
     show_revisions = 0
@@ -88,7 +84,7 @@ class TextExceptionFormatter(object):
         col = getattr(supplement, 'column', -1)
         if line:
             if col is not None and col >= 0:
-                result.append(fmtLine('Line %s, Column %s' % (
+                result.append(fmtLine('Line {}, Column {}'.format(
                     line, col)))
             else:
                 result.append(fmtLine('Line %s' % line))
@@ -118,7 +114,7 @@ class TextExceptionFormatter(object):
         return None
 
     def formatTracebackInfo(self, tbi):
-        return self.formatSupplementLine('__traceback_info__: %s' % (tbi, ))
+        return self.formatSupplementLine('__traceback_info__: {}'.format(tbi))
 
     def formatLine(self, tb):
         f = tb.tb_frame

@@ -15,6 +15,8 @@
 These exceptions are so general purpose that they don't belong in Zope
 application-specific packages.
 """
+import builtins
+
 from zope.interface import implementer
 from zope.interface.common.interfaces import IException
 from zope.publisher.interfaces import IBadRequest
@@ -23,9 +25,6 @@ from zope.publisher.interfaces import IRedirect
 from zope.publisher.interfaces.http import IHTTPException
 from zope.publisher.interfaces.http import IMethodNotAllowed
 from zope.security.interfaces import IForbidden
-
-from ._compat import builtins
-from ._compat import class_types
 
 
 status_reasons = {
@@ -239,7 +238,7 @@ class _HTTPMove(HTTPRedirection):
     """Base class for redirections requiring a location header."""
 
     def __init__(self, *args):
-        super(_HTTPMove, self).__init__(*args)
+        super().__init__(*args)
         self.setHeader('Location', args[0])
 
 
@@ -516,7 +515,7 @@ def convertExceptionType(name):
     elif hasattr(zExceptions, name):
         etype = getattr(zExceptions, name)
     if (etype is not None and
-            isinstance(etype, class_types) and
+            isinstance(etype, type) and
             issubclass(etype, Exception)):
         return etype
 
