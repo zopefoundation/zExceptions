@@ -13,13 +13,10 @@
 ##############################################################################
 # Stock __traceback_supplement__ implementations
 
-try:
-    from html import escape
-except ImportError:  # PY2
-    from cgi import escape
+from html import escape
 
 
-class PathTracebackSupplement(object):
+class PathTracebackSupplement:
     """Implementation of ITracebackSupplement"""
     pp = None
 

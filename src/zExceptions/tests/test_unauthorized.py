@@ -18,8 +18,6 @@ import unittest
 
 from zope.interface.verify import verifyClass
 
-from .._compat import unicode
-
 
 class UnauthorizedTests(unittest.TestCase):
 
@@ -44,7 +42,7 @@ class UnauthorizedTests(unittest.TestCase):
         self.assertEqual(exc.needed, None)
 
         self.assertEqual(bytes(exc), b'Unauthorized()')
-        self.assertEqual(unicode(exc), u'Unauthorized()')
+        self.assertEqual(str(exc), 'Unauthorized()')
 
     def test_ascii_message(self):
         arg = b'ERROR MESSAGE'
@@ -56,10 +54,10 @@ class UnauthorizedTests(unittest.TestCase):
         self.assertEqual(exc.needed, None)
 
         self.assertEqual(bytes(exc), arg)
-        self.assertEqual(unicode(exc), arg.decode('ascii'))
+        self.assertEqual(str(exc), arg.decode('ascii'))
 
     def test_encoded_message(self):
-        arg = u'ERROR MESSAGE \u03A9'.encode('utf-8')
+        arg = 'ERROR MESSAGE \u03A9'.encode()
         exc = self._makeOne(arg)
 
         self.assertEqual(exc.name, None)
@@ -68,10 +66,10 @@ class UnauthorizedTests(unittest.TestCase):
         self.assertEqual(exc.needed, None)
 
         self.assertEqual(bytes(exc), arg)
-        self.assertEqual(unicode(exc), arg.decode('utf-8'))
+        self.assertEqual(str(exc), arg.decode('utf-8'))
 
-    def test_unicode_message(self):
-        arg = u'ERROR MESSAGE \u03A9'
+    def test_str_message(self):
+        arg = 'ERROR MESSAGE \u03A9'
         exc = self._makeOne(arg)
 
         self.assertEqual(exc.name, None)
@@ -80,7 +78,7 @@ class UnauthorizedTests(unittest.TestCase):
         self.assertEqual(exc.needed, None)
 
         self.assertEqual(bytes(exc), arg.encode('utf-8'))
-        self.assertEqual(unicode(exc), arg)
+        self.assertEqual(str(exc), arg)
 
     def test_ascii_name(self):
         arg = b'ERROR_NAME'
@@ -95,11 +93,11 @@ class UnauthorizedTests(unittest.TestCase):
             bytes(exc),
             b"You are not allowed to access 'ERROR_NAME' in this context")
         self.assertEqual(
-            unicode(exc),
-            u"You are not allowed to access 'ERROR_NAME' in this context")
+            str(exc),
+            "You are not allowed to access 'ERROR_NAME' in this context")
 
     def test_encoded_name(self):
-        arg = u'ERROR_NAME_\u03A9'.encode('utf-8')
+        arg = 'ERROR_NAME_\u03A9'.encode()
         exc = self._makeOne(arg)
 
         self.assertEqual(exc.name, arg)
@@ -112,12 +110,12 @@ class UnauthorizedTests(unittest.TestCase):
             (b"You are not allowed to access "
              b"'ERROR_NAME_\xce\xa9' in this context"))
         self.assertEqual(
-            unicode(exc),
-            u"You are not allowed to access "
-            u"'ERROR_NAME_\u03A9' in this context")
+            str(exc),
+            "You are not allowed to access "
+            "'ERROR_NAME_\u03A9' in this context")
 
-    def test_unicode_name(self):
-        arg = u'ERROR_NAME_\u03A9'
+    def test_str_name(self):
+        arg = 'ERROR_NAME_\u03A9'
         exc = self._makeOne(arg)
 
         self.assertEqual(exc.name, arg)
@@ -130,6 +128,6 @@ class UnauthorizedTests(unittest.TestCase):
             (b"You are not allowed to access "
              b"'ERROR_NAME_\xce\xa9' in this context"))
         self.assertEqual(
-            unicode(exc),
-            u"You are not allowed to access "
-            u"'ERROR_NAME_\u03A9' in this context")
+            str(exc),
+            "You are not allowed to access "
+            "'ERROR_NAME_\u03A9' in this context")

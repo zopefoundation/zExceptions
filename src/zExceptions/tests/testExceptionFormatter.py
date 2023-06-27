@@ -34,7 +34,7 @@ class ExceptionForTesting(HTTPException):
     pass
 
 
-class TestingTracebackSupplement(object):
+class TestingTracebackSupplement:
 
     source_url = '/somepath'
     line = 634

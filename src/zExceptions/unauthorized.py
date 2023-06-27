@@ -16,10 +16,6 @@ from zope.security.interfaces import IUnauthorized
 
 from zExceptions import HTTPClientError
 
-from ._compat import PY3
-from ._compat import string_types
-from ._compat import unicode
-
 
 @implementer(IUnauthorized)
 class Unauthorized(HTTPClientError):
@@ -51,7 +47,7 @@ class Unauthorized(HTTPClientError):
         provides are added to needed.
         """
         if (name is None and (
-                not isinstance(message, string_types) or
+                not isinstance(message, (str, bytes)) or
                 len(message.split()) <= 1)):
             # First arg is a name, not a message
             name = message
@@ -70,15 +66,15 @@ class Unauthorized(HTTPClientError):
 
         self.needed = needed
 
-    def __unicode__(self):
+    def __str__(self):
         if self.message is not None:
             message = (self.message if
-                       isinstance(self.message, unicode) else
+                       isinstance(self.message, str) else
                        self.message.decode('utf-8'))
             return message
         if self.name is not None:
             name = (self.name if
-                    isinstance(self.name, unicode) else
+                    isinstance(self.name, str) else
                     self.name.decode('utf-8'))
             return ("You are not allowed to access '%s' in this context"
                     % name)
@@ -87,14 +83,8 @@ class Unauthorized(HTTPClientError):
                     % self.getValueName())
         return repr(self)
 
-    if PY3:
-        __str__ = __unicode__
-
-        def __bytes__(self):
-            return self.__unicode__().encode('utf-8')
-    else:
-        def __str__(self):
-            return self.__unicode__().encode('utf-8')
+    def __bytes__(self):
+        return self.__str__().encode('utf-8')
 
     def setRealm(self, value):
         self.realm = value
