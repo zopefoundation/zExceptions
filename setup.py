@@ -18,7 +18,7 @@ from setuptools import setup
 
 setup(
     name='zExceptions',
-    version='5.0.dev0',
+    version='5.0',
     url='https://github.com/zopefoundation/zExceptions',
     license='ZPL 2.1',
     description="zExceptions contains common exceptions used in Zope.",
