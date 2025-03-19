@@ -1,17 +1,19 @@
 Changelog
 =========
 
-5.1 (unreleased)
+6.0 (unreleased)
 ----------------
 
-- Nothing changed yet.
+- Add support for Python 3.12, 3.13 and (preliminary) 3.14.
+
+- Drop support for Python 3.7 and 3.8.
 
 
 5.0 (2023-06-28)
 ----------------
 
-
 - Drop support for Python 2.7, 3.5, 3.6.
+
 
 4.3 (2022-12-18)
 ----------------
