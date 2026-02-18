@@ -2,7 +2,7 @@
 # https://github.com/zopefoundation/meta/tree/master/src/zope/meta/pure-python
 [meta]
 template = "pure-python"
-commit-id = "5a7f2bc0"
+commit-id = "2253eec2"
 
 [python]
 with-windows = false
@@ -13,6 +13,7 @@ with-macos = false
 with-docs = false
 
 [tox]
+testenv-skip-test-extra = true
 use-flake8 = true
 testenv-deps = [
     "zope.testrunner",
