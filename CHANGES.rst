@@ -4,9 +4,9 @@ Changelog
 6.0 (unreleased)
 ----------------
 
-- Add support for Python 3.12, 3.13 and (preliminary) 3.14.
+- Add support for Python 3.12, 3.13, and 3.14.
 
-- Drop support for Python 3.7 and 3.8.
+- Drop support for Python 3.7, 3.8, and 3.9.
 
 
 5.0 (2023-06-28)
