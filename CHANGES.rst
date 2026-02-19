@@ -1,7 +1,7 @@
 Changelog
 =========
 
-6.0 (unreleased)
+6.0 (2026-02-19)
 ----------------
 
 - Add support for Python 3.12, 3.13, and 3.14.
