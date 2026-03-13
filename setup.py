@@ -37,7 +37,6 @@ setup(
     package_dir={'': 'src'},
     python_requires='>=3.10',
     install_requires=[
-        'setuptools',
         'zope.interface',
         'zope.publisher',
         'zope.security',
