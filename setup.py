@@ -12,52 +12,8 @@
 #
 ##############################################################################
 
-from setuptools import find_packages
 from setuptools import setup
 
 
-setup(
-    name='zExceptions',
-    version='6.1.dev0',
-    url='https://github.com/zopefoundation/zExceptions',
-    license='ZPL-2.1',
-    description="zExceptions contains common exceptions used in Zope.",
-    author='Zope Foundation and Contributors',
-    author_email='zope-dev@zope.dev',
-    project_urls={
-        'Issue Tracker': 'https://github.com/zopefoundation/'
-                         'zExceptions/issues',
-        'Sources': 'https://github.com/zopefoundation/zExceptions',
-    },
-
-    long_description=(open('README.rst').read() + '\n' +
-                      open('CHANGES.rst').read()),
-    long_description_content_type='text/x-rst',
-    packages=find_packages('src'),
-    package_dir={'': 'src'},
-    python_requires='>=3.10',
-    install_requires=[
-        'setuptools',
-        'zope.interface',
-        'zope.publisher',
-        'zope.security',
-    ],
-    classifiers=[
-        "Development Status :: 6 - Mature",
-        "Environment :: Web Environment",
-        "Framework :: Zope :: 5",
-        "License :: OSI Approved :: Zope Public License",
-        "Operating System :: OS Independent",
-        "Programming Language :: Python",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
-        "Programming Language :: Python :: 3.12",
-        "Programming Language :: Python :: 3.13",
-        "Programming Language :: Python :: 3.14",
-        "Programming Language :: Python :: Implementation :: CPython",
-        "Programming Language :: Python :: Implementation :: PyPy",
-    ],
-    include_package_data=True,
-    zip_safe=False,
-)
+# See pyproject.toml for package metadata
+setup()
